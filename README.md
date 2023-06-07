@@ -1,8 +1,11 @@
 
 # Plausible Analytics for Laravel 10+
 
-This package was originally created by @njoguamos  [njoguamos/laravel-plausible](https://github.com/njoguamos/laravel-plausible) I had to make this adaptation because the original project only supports Plausible.io and not self-hosted analytics
-I made a change so that the base address of the plausible can be manipulated both by configuration and by method, so we can manage several self-hosted plausibles in a single APIS system
+This package was originally created by [@njoguamos](https://github.com/njoguamos/) - [njoguamos/laravel-plausible](https://github.com/njoguamos/laravel-plausible) 
+
+I had to make this adaptation because the original project only supports Plausible.io and not self-hosted analytics
+
+I made a change so that the base address of the plausible can be manipulated both by configuration and by method, so we can manage several self-hosted Plausible in a single APIS system
 
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/tallesairan/laravel-plausible.svg?style=flat-square)](https://packagist.org/packages/tallesairan/laravel-plausible)
@@ -11,7 +14,9 @@ I made a change so that the base address of the plausible can be manipulated bot
 ![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tallesairan/laravel-plausible/fix-php-code-style-issues.yml?label=code%20style)
 
 [Plausible](https://plausible.io/) is intuitive, lightweight and open source web analytics. Plausible has no cookies and fully compliant with GDPR, CCPA and PECR.
-[Plausible Self Hosting Docs](https://plausible.io/docs/self-hosting-configuration)
+
+[Plausible Self Hosting Docs](https://plausible.io/docs/self-hosting) Plausible Analytics is designed to be self-hosted through Docker. You don't have to be a Docker expert to launch your own instance of Plausible Analytics. You should have a basic understanding of the command-line and networking to successfully set up your own instance of Plausible Analytics.
+
 
 ## Installation
 
@@ -34,11 +39,20 @@ Ensure that you have updated your application `.env` with credentials from [Plau
 ```dotenv
 #.env file
 
-BASE_URL=
+BASE_URL=https://your-self-hosted-address.io
 PLAUSIBLE_SITE_ID=
 PLAUSIBLE_API_KEY=
 ```
 
+## Optional Base url over facade
+
+default url base is "https://plausible.io"
+to ensure the operation enter the url without the slash at the end
+
+```php
+use Airan\Plausible\Facades\Plausible;
+Plausible::setBaseUrl('https://your-self-hosted-address.io');
+```
 ## Usage
 
 ### 1. Getting Realtime Visitors
