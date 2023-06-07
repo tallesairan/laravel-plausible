@@ -52,6 +52,7 @@ use Airan\Plausible\Facades\Plausible;
 
 Plausible::setBaseUrl('https://your-self-hosted-address.io');
 Plausible::setSiteId('newera.com');
+Plausible::setApiKey('eg-nw88131238128jj9213u1h3h1hh13h2h31200x1h5hh5')
 /**
 * Practical example
 */
@@ -61,6 +62,7 @@ $sites = Site:with('plausible')->get();
 
 foreach ($sites as $site){
     Plausible::setBaseUrl($site->plausible->base_url); // eg https://stats.newera.com
+    Plausible::setApiKey($site->plausible->api_key); // set default api key
     Plausible::setSiteId($site->plausible_slug); // eg newera.com 
     
     $visitors = Plausible::realtime();

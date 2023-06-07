@@ -29,12 +29,17 @@ class PlausibleConnector extends Connector implements Cacheable
         return $this->baseUrl.'/api/v1/stats';
     }
 
+
+    function setApiKey($apiKey)
+    {
+        $this->withTokenAuth($apiKey);
+    }
     /**
      * set custom baseUrl for each request
      * @param string $url
      * @return void
      */
-    function setBaseUrl(string $url)
+    public function setBaseUrl(string $url)
     {
         $this->baseUrl = $url;
     }

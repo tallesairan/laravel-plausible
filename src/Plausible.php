@@ -42,6 +42,16 @@ class Plausible
     {
         $this->connector->setSiteId(siteId: $siteId);
     }
+
+    /**
+     * Set custom api key on plausible connector
+     * @param string $apiKey
+     * @return void
+     */
+    public function setApiKey(string $apiKey)
+    {
+        $this->connector->setApiKey(apiKey: $apiKey);
+    }
     public function realtime()
     {
         return $this->connector->send(request: new GetRealtimeVisitors())->body();
