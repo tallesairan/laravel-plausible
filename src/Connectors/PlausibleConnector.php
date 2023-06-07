@@ -14,9 +14,12 @@ class PlausibleConnector extends Connector implements Cacheable
     use HasCaching;
 
 
-    protected $baseUrl;
+    public $baseUrl;
 
-    protected $siteId;
+    public $apiKey;
+
+    public $siteId;
+
     public function __construct()
     {
         $this->withTokenAuth(token: config(key: 'plausible.api_key'));
@@ -30,9 +33,15 @@ class PlausibleConnector extends Connector implements Cacheable
     }
 
 
+    /**
+     * @param $apiKey
+     * @return mixed
+     */
     function setApiKey($apiKey)
     {
+        $this->apiKey=$apiKey;
         $this->withTokenAuth($apiKey);
+        return $this->apiKey;
     }
     /**
      * set custom baseUrl for each request
@@ -64,7 +73,7 @@ class PlausibleConnector extends Connector implements Cacheable
      * Change default query for custom site_id
      * @return array
      */
-    protected function defaultQuery(): array
+    public function defaultQuery(): array
     {
         return [
             'site_id' => $this->siteId,
