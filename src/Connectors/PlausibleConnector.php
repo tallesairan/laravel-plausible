@@ -13,11 +13,15 @@ class PlausibleConnector extends Connector implements Cacheable
 {
     use HasCaching;
 
+
     protected $baseUrl;
+
+    protected $siteId;
     public function __construct()
     {
         $this->withTokenAuth(token: config(key: 'plausible.api_key'));
         $this->baseUrl = config(key: 'plausible.base_url');
+        $this->siteId = config(key: 'plausible.site_id');
     }
 
     public function resolveBaseUrl(): string
@@ -35,6 +39,15 @@ class PlausibleConnector extends Connector implements Cacheable
         $this->baseUrl = $url;
     }
 
+    /**
+     * Set custom site id programmatically
+     * @param string $siteId
+     * @return void
+     */
+    public function setSiteId(string $siteId)
+    {
+        $this->siteId = $siteId;
+    }
     public function defaultConfig(): array
     {
         return [
@@ -42,10 +55,14 @@ class PlausibleConnector extends Connector implements Cacheable
         ];
     }
 
+    /**
+     * Change default query for custom site_id
+     * @return array
+     */
     protected function defaultQuery(): array
     {
         return [
-            'site_id' => config(key: 'plausible.site_id'),
+            'site_id' => $this->siteId,
         ];
     }
 

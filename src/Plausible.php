@@ -32,6 +32,16 @@ class Plausible
     {
         $this->connector->setBaseUrl(url: $url);
     }
+
+    /**
+     * set custom site id from default query on plausible connector
+     * @param string $siteId
+     * @return void
+     */
+    public function setSiteId(string $siteId)
+    {
+        $this->connector->setSiteId(siteId: $siteId);
+    }
     public function realtime()
     {
         return $this->connector->send(request: new GetRealtimeVisitors())->body();

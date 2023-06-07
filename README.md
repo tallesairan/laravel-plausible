@@ -41,15 +41,36 @@ PLAUSIBLE_SITE_ID=
 PLAUSIBLE_API_KEY=
 ```
 
-## Optional Base url over facade
+## Optional baseUrl or siteId over facade
+Develop these methods to help manage multiple plausible self-hosted remotely
 
 default url base is "https://plausible.io"
 to ensure the operation enter the url without the slash at the end
 
 ```php
 use Airan\Plausible\Facades\Plausible;
+
 Plausible::setBaseUrl('https://your-self-hosted-address.io');
+Plausible::setSiteId('newera.com');
+/**
+* Practical example
+*/
+# Let's assume that the Site Model has a belongs to many relationship with a model called Plausible
+
+$sites = Site:with('plausible')->get();
+
+foreach ($sites as $site){
+    Plausible::setBaseUrl($site->plausible->base_url); // eg https://stats.newera.com
+    Plausible::setSiteId($site->plausible_slug); // eg newera.com 
+    
+    $visitors = Plausible::realtime();
+    $aggregates = Plausible::aggregates();
+    ...
+    
+}
 ```
+
+
 ## Usage
 
 ### 1. Getting Realtime Visitors
