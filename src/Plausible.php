@@ -3,6 +3,7 @@
 namespace Airan\Plausible;
 
 use Airan\Plausible\Connectors\PlausibleConnector;
+use Airan\Plausible\Exception\PlausibleException;
 use Airan\Plausible\Requests\GetAggregates;
 use Airan\Plausible\Requests\GetBreakDown;
 use Airan\Plausible\Requests\GetRealtimeVisitors;
@@ -71,8 +72,17 @@ class Plausible
             filters: $filters,
             date: $date ?: now()->format(format: 'Y-m-d'),
         );
+        $aggregates = $this->connector->send(request: $request)->json();
+        if($aggregates){
+            if(isset($aggregates['error'])){
+                throw new PlausibleException(message: $aggregates['error']);
 
-        return $this->connector->send(request: $request)->json(key: 'results');
+            }
+
+            return $aggregates['results'];
+        }
+        throw new PlausibleException(message: 'Error on Request');
+
     }
 
     public function timeSeries(
@@ -89,8 +99,15 @@ class Plausible
             interval: $interval,
             date: $date ?: now()->format(format: 'Y-m-d'),
         );
+        $timeSeriesResponse = $this->connector->send(request: $request)->json();
+        if($timeSeriesResponse){
+            if(isset($timeSeriesResponse['error'])){
+                throw new PlausibleException(message: $timeSeriesResponse['error']);
+            }
 
-        return $this->connector->send(request: $request)->json(key: 'results');
+            return $timeSeriesResponse['results'];
+        }
+        throw new PlausibleException(message: 'Error on Request');
     }
 
     public function breakdown(
@@ -111,7 +128,14 @@ class Plausible
             page: $page,
             filters: $filters,
         );
+        $breakdown = $this->connector->send(request: $request)->json();
+        if($breakdown){
+            if(isset($breakdown['error'])){
+                throw new PlausibleException(message: $breakdown['error']);
+            }
 
-        return $this->connector->send(request: $request)->json(key: 'results');
+            return $breakdown['results'];
+        }
+        throw new PlausibleException(message: 'Error on Request');
     }
 }
