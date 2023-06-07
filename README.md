@@ -3,15 +3,12 @@
 
 This package was originally created by [@njoguamos](https://github.com/njoguamos/) - [njoguamos/laravel-plausible](https://github.com/njoguamos/laravel-plausible) 
 
-I had to make this adaptation because the original project only supports Plausible.io and not self-hosted analytics
+I had to make this adaptation because the original project only supports Plausible.io and not self-hosted analytics,
+I made a change so that the base address of the plausible can be manipulated both by configuration and by method, so we can manage several self-hosted Plausible in a single Apis system
 
-I made a change so that the base address of the plausible can be manipulated both by configuration and by method, so we can manage several self-hosted Plausible in a single APIS system
 
-
-[![Latest Version on Packagist](https://img.shields.io/packagist/v/tallesairan/laravel-plausible.svg?style=flat-square)](https://packagist.org/packages/tallesairan/laravel-plausible)
-[![Total Downloads](https://img.shields.io/packagist/dt/tallesairan/laravel-plausible.svg?style=flat-square)](https://packagist.org/packages/tallesairan/laravel-plausible)
-[![GitHub Tests Action Status](https://img.shields.io/github/actions/workflow/status/tallesairan/laravel-plausible/run-tests.yml?branch=main&label=tests&style=flat-square)](https://github.com/tallesairan/laravel-plausible/actions?query=workflow%3Arun-tests+branch%3Amain)
-![GitHub Workflow Status](https://img.shields.io/github/actions/workflow/status/tallesairan/laravel-plausible/fix-php-code-style-issues.yml?label=code%20style)
+[![Latest Version on Packagist](https://img.shields.io/packagist/v/tallesairan/laravel-plausible.svg?style=flat-square&v3)](https://packagist.org/packages/tallesairan/laravel-plausible)
+[![Total Downloads](https://img.shields.io/packagist/dt/tallesairan/laravel-plausible.svg?style=flat-square&v2)](https://packagist.org/packages/tallesairan/laravel-plausible)
 
 [Plausible](https://plausible.io/) is intuitive, lightweight and open source web analytics. Plausible has no cookies and fully compliant with GDPR, CCPA and PECR.
 
