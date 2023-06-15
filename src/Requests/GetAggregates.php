@@ -11,6 +11,8 @@ class GetAggregates extends Request
     protected Method $method = Method::GET;
 
     public function __construct(
+        public string $site_id = '',
+
         public string $period = '30d',
         public array $metrics = [],
         public bool $compare = true,
@@ -34,6 +36,8 @@ class GetAggregates extends Request
     protected function defaultQuery(): array
     {
         $query = [
+            'site_id' => $this->site_id,
+            
             'period'  => $this->period,
             'date'    => $this->date,
             'metrics' => $this->getMetrics(),

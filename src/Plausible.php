@@ -36,12 +36,16 @@ class Plausible
 
     /**
      * set custom site id from default query on plausible connector
-     * @param string $siteId
+     * @param string $site_id
+     * @param bool $removeWWW remove www. from domain
      * @return void
      */
-    public function setSiteId(string $siteId)
+    public function setSiteId(string $site_id, bool $removeWWW = false)
     {
-        $this->connector->setSiteId(siteId: $siteId);
+        if($removeWWW){
+            $site_id = str_replace(search: 'www.', replace: '', subject: $site_id);
+        }
+        $this->connector->setSiteId(site_id: $site_id);
     }
 
     /**
@@ -66,6 +70,8 @@ class Plausible
         ?string $date = null,
     ) {
         $request = new GetAggregates(
+            site_id: $this->connector->site_id,
+
             period: $period,
             metrics: $metrics ?: config(key: 'plausible.allowed_metrics.default'),
             compare: $compare,
@@ -75,7 +81,12 @@ class Plausible
         $aggregates = $this->connector->send(request: $request)->json();
         if($aggregates){
             if(isset($aggregates['error'])){
-                throw new PlausibleException(message: $aggregates['error']);
+                throw new PlausibleException(message: $aggregates['error'], data: [
+                    'method'=>$request->getMethod(),
+                    'endpoint'=>$request->resolveEndpoint(),
+                    'site_id'=>$this->connector->site_id,
+                    ''
+                ]);
 
             }
 
@@ -92,17 +103,27 @@ class Plausible
         array   $filters = [],
         ?string $date = null,
     ) {
+
         $request = new GetTimeSeries(
+            site_id: $this->connector->site_id,
             period: $period,
             metrics: $metrics ?: config(key: 'plausible.allowed_metrics.time-series'),
             filters: $filters,
             interval: $interval,
             date: $date ?: now()->format(format: 'Y-m-d'),
         );
-        $timeSeriesResponse = $this->connector->send(request: $request)->json();
+        $timeSeriesResponse = $this->connector->send(request: $request);
+
+
+        $timeSeriesResponse=$timeSeriesResponse->json();
         if($timeSeriesResponse){
             if(isset($timeSeriesResponse['error'])){
-                throw new PlausibleException(message: $timeSeriesResponse['error']);
+                throw new PlausibleException(message: $timeSeriesResponse['error'],data: [
+                    'method'=>$request->getMethod(),
+                    'endpoint'=>$request->resolveEndpoint(),
+                    'site_id'=>$this->connector->site_id,
+                    ''
+                ]);
             }
 
             return $timeSeriesResponse['results'];
@@ -120,6 +141,8 @@ class Plausible
         array   $filters = [],
     ) {
         $request = new GetBreakDown(
+            site_id: $this->connector->site_id,
+
             property: $property,
             period: $period,
             date: $date ?: now()->format(format: 'Y-m-d'),
@@ -131,7 +154,13 @@ class Plausible
         $breakdown = $this->connector->send(request: $request)->json();
         if($breakdown){
             if(isset($breakdown['error'])){
-                throw new PlausibleException(message: $breakdown['error']);
+
+                throw new PlausibleException(message: $breakdown['error'], data: [
+                    'method'=>$request->getMethod(),
+                    'endpoint'=>$request->resolveEndpoint(),
+                    'site_id'=>$this->connector->site_id,
+                    ''
+                ]);
             }
 
             return $breakdown['results'];

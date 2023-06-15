@@ -11,6 +11,7 @@ class GetBreakDown extends Request
     protected Method $method = Method::GET;
 
     public function __construct(
+        public string $site_id = '',
         public string $property = 'event:page',
         public string $period = '30d',
         public ?string $date = null,
@@ -41,6 +42,7 @@ class GetBreakDown extends Request
     protected function defaultQuery(): array
     {
         $query = [
+            'site_id' => $this->site_id,
             'property' => $this->property,
             'period'   => $this->period,
             'limit'    => $this->limit,
